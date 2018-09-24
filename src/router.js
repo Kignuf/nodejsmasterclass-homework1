@@ -1,10 +1,15 @@
 const handlers = require('./handlers')
 
 function route(path, query, method, headers, cb) {
+	let handler
 	// check path
-	let handler = typeof handlers[path] !== 'undefined' ? handlers[path] : handlers.notFound
-	// check method
-	handler = typeof handler[method] !== 'undefined' ? handler[method] : handlers.notFound
+	if(typeof handlers[path] !== 'undefined'){
+		// check method
+		handler = handlers[path]
+		handler = typeof handler[method] !== 'undefined' ? handler[method] : handlers.methodNotAllowed
+	} else {
+		handler = handlers.notFound
+	}
 
 	handler({path, query, method, headers}, cb)
 }
