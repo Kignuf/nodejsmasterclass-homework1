@@ -1,6 +1,6 @@
 const handlers = require('./handlers')
 
-function route(path, query, method, headers, cb) {
+function route(path, query, method, headers, body, cb) {
 	let handler
 	// check path
 	if(typeof handlers[path] !== 'undefined'){
@@ -11,7 +11,7 @@ function route(path, query, method, headers, cb) {
 		handler = handlers.notFound
 	}
 
-	handler({path, query, method, headers}, cb)
+	handler({path, query, method, headers, body}, cb)
 }
 
 module.exports = route
